@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+  node:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    image: forestadmin:latest
+    restart: "no"
+    volumes:
+      - "$PWD:/home/docker:delegated"
+    working_dir: "/home/docker"
+    user: node
+    networks:
+      - forest
+
+  nginx:
+    image: nginx:alpine
+    restart: "no"
+    ports:
+      - "80:80"
+    volumes:
+      - "$PWD/.docker/nginx:/etc/nginx/conf.d:ro"
+    networks:
+      forest:
+        aliases:
+          - forestadmin.localhost
+
+  db:
+    image: postgres:11-alpine
+    restart: "no"
+    ports:
+      - "5432:5432"
+    volumes:
+      - "$PWD/.data/db:/var/lib/postgresql:cached"
+      - "$PWD:/home/docker:delegated"
+      - "$PWD/.docker/.pgpass:/root/.pgpass:ro"
+    environment:
+      - "POSTGRES_DB=forestadmin_demo"
+      - "POSTGRES_USER=devops"
+      - "POSTGRES_PASSWORD=devops"
+    networks:
+      - "forest"
+
+networks:
+  forest:
+    driver: bridge
