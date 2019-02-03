@@ -29,8 +29,6 @@ services:
   db:
     image: postgres:11-alpine
     restart: "no"
-    ports:
-      - "5432:5432"
     volumes:
       - "$PWD/.data/db:/var/lib/postgresql:cached"
       - "$PWD:/home/docker:delegated"

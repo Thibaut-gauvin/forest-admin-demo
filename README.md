@@ -1,5 +1,7 @@
 ## Foresadmin Example
 
+![Demo Image](demo.png)
+
 ### Requirments
 
 - Docker CE version 18+
