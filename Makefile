@@ -45,7 +45,7 @@ db.cli: ## Start new psql prompt
 ##
 
 build: ## Build Docker images and ensure they are up to date
-	${COMPOSE_CMD} build
+	${COMPOSE_CMD} build --build-arg DOCKER_USER_ID=1001
 
 start: ## Start Docker containers
 	${COMPOSE_CMD} up -d

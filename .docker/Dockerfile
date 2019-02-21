@@ -2,10 +2,13 @@ FROM node:10
 
 LABEL maintainer "Gauvin Thibaut <gauvin.thibaut83@gmail.com>"
 
+ARG DOCKER_USER_ID=1001
+
 WORKDIR /home/docker/
 
 RUN \
     npm install -g lumber-cli \
+    && usermod -u ${DOCKER_USER_ID} node \
     && chown node:node -R /home/docker
 
 USER node
